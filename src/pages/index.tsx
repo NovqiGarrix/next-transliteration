@@ -20,7 +20,7 @@ const Home: NextPage = () => {
     const resp = await fetch(FETCH_URL);
     const data = await resp.text();
 
-    const newId = data.replaceAll(" ", "-");
+    const newId = data.replaceAll(" ", "-").replaceAll("'", "");
     setId(newId);
   };
 
