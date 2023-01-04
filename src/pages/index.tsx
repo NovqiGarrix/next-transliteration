@@ -3,7 +3,6 @@ import { FormEvent, useState } from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
 
-import { slugify } from "transliteration";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
@@ -16,7 +15,12 @@ const Home: NextPage = () => {
     const title = formData.get("title");
     if (!title) return;
 
-    const newId = slugify(title.toString(), { fixChineseSpacing: false });
+    const FETCH_URL = `https://aksharamukha-plugin.appspot.com/api/public?target=RomanReadable&text=${title.toString()}`
+
+    const resp = await fetch(FETCH_URL);
+    const data = await resp.text();
+
+    const newId = data.replaceAll(" ", "-");
     setId(newId);
   };
 
