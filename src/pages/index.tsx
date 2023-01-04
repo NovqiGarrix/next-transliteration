@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
 
-import { transliterate } from "transliteration";
+import { slugify } from "transliteration";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
@@ -16,12 +16,7 @@ const Home: NextPage = () => {
     const title = formData.get("title");
     if (!title) return;
 
-    const words = title.toString().split(" ");
-
-    const newId = words
-      .map((word) => transliterate(word))
-      .reduce((acc, curr) => acc + "-" + curr);
-
+    const newId = slugify(title.toString(), { fixChineseSpacing: false });
     setId(newId);
   };
 
